@@ -19,7 +19,8 @@ const SettingsManagement = () => {
     banner_text: '',
     banner_text_en: '',
     banner_enabled: 'true',
-    default_language: 'ar'
+    default_language: 'ar',
+    holiday_theme: 'none'
   })
   const [preview, setPreview] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -36,10 +37,11 @@ const SettingsManagement = () => {
         phone_number: settings.phone_number || '',
         instagram_url: settings.instagram_url || '',
         store_url: settings.store_url || '',
-        banner_text: settings.banner_text || '',
-        banner_text_en: settings.banner_text_en || '',
-        banner_enabled: settings.banner_enabled || 'true',
-        default_language: settings.default_language || 'ar'
+      banner_text: settings.banner_text || '',
+      banner_text_en: settings.banner_text_en || '',
+      banner_enabled: settings.banner_enabled || 'true',
+      default_language: settings.default_language || 'ar',
+      holiday_theme: settings.holiday_theme || 'none'
       })
       if (settings.logo) {
         setPreview(getImageUrl(settings.logo))

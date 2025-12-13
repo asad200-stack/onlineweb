@@ -76,7 +76,8 @@ db.serialize(() => {
     ('banner_text', 'عروض خاصة - خصومات تصل إلى 50%'),
     ('banner_text_en', 'Special Offers - Up to 50% Off'),
     ('banner_enabled', 'true'),
-    ('default_language', 'ar')`);
+    ('default_language', 'ar'),
+    ('holiday_theme', 'none')`);
 });
 
 module.exports = db;

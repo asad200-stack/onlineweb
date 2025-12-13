@@ -25,7 +25,8 @@ export const SettingsProvider = ({ children }) => {
     banner_text: 'عروض خاصة - خصومات تصل إلى 50%',
     banner_text_en: 'Special Offers - Up to 50% Off',
     banner_enabled: 'true',
-    default_language: 'ar'
+    default_language: 'ar',
+    holiday_theme: 'none'
   })
   const [loading, setLoading] = useState(true)
 
@@ -55,6 +56,10 @@ export const SettingsProvider = ({ children }) => {
     try {
       await axios.put('/api/settings', newSettings)
       setSettings(prev => ({ ...prev, ...newSettings }))
+      // Apply theme if changed
+      if (newSettings.holiday_theme !== undefined) {
+        document.documentElement.setAttribute('data-holiday-theme', newSettings.holiday_theme || 'none')
+      }
       return true
     } catch (error) {
       console.error('Error updating settings:', error)

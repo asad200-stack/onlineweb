@@ -1,0 +1,245 @@
+/* Holiday Themes Styles */
+
+/* Christmas Theme */
+[data-holiday-theme="christmas"] {
+  --holiday-primary: #C8102E; /* Red */
+  --holiday-secondary: #006747; /* Green */
+  --holiday-accent: #FFD700; /* Gold */
+}
+
+[data-holiday-theme="christmas"] .bg-blue-600,
+[data-holiday-theme="christmas"] .bg-blue-500 {
+  background-color: var(--holiday-primary) !important;
+}
+
+[data-holiday-theme="christmas"] .bg-blue-700:hover {
+  background-color: #A00D25 !important;
+}
+
+[data-holiday-theme="christmas"] .text-blue-600,
+[data-holiday-theme="christmas"] .text-blue-500 {
+  color: var(--holiday-primary) !important;
+}
+
+[data-holiday-theme="christmas"]::before {
+  content: '🎄';
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  z-index: 1000;
+  pointer-events: none;
+  animation: float 3s ease-in-out infinite;
+}
+
+[data-holiday-theme="christmas"] header,
+[data-holiday-theme="christmas"] .bg-gradient-to-br {
+  background: linear-gradient(135deg, var(--holiday-primary) 0%, var(--holiday-secondary) 100%) !important;
+}
+
+[data-holiday-theme="christmas"] .bg-white {
+  border-top: 3px solid var(--holiday-accent);
+}
+
+/* Eid Theme */
+[data-holiday-theme="eid"] {
+  --holiday-primary: #FFD700; /* Gold */
+  --holiday-secondary: #228B22; /* Forest Green */
+  --holiday-accent: #FF6347; /* Tomato */
+}
+
+[data-holiday-theme="eid"] .bg-blue-600,
+[data-holiday-theme="eid"] .bg-blue-500 {
+  background-color: var(--holiday-primary) !important;
+  color: #000 !important;
+}
+
+[data-holiday-theme="eid"] .bg-blue-700:hover {
+  background-color: #FFC107 !important;
+}
+
+[data-holiday-theme="eid"] .text-blue-600,
+[data-holiday-theme="eid"] .text-blue-500 {
+  color: var(--holiday-primary) !important;
+}
+
+[data-holiday-theme="eid"]::before {
+  content: '🎉';
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  z-index: 1000;
+  pointer-events: none;
+  animation: float 3s ease-in-out infinite;
+}
+
+[data-holiday-theme="eid"] header,
+[data-holiday-theme="eid"] .bg-gradient-to-br {
+  background: linear-gradient(135deg, var(--holiday-primary) 0%, var(--holiday-secondary) 100%) !important;
+}
+
+/* Ramadan Theme */
+[data-holiday-theme="ramadan"] {
+  --holiday-primary: #4A90E2; /* Sky Blue */
+  --holiday-secondary: #2E7D32; /* Green */
+  --holiday-accent: #FFD700; /* Gold */
+}
+
+[data-holiday-theme="ramadan"] .bg-blue-600,
+[data-holiday-theme="ramadan"] .bg-blue-500 {
+  background-color: var(--holiday-primary) !important;
+}
+
+[data-holiday-theme="ramadan"] .bg-blue-700:hover {
+  background-color: #357ABD !important;
+}
+
+[data-holiday-theme="ramadan"] .text-blue-600,
+[data-holiday-theme="ramadan"] .text-blue-500 {
+  color: var(--holiday-primary) !important;
+}
+
+[data-holiday-theme="ramadan"]::before {
+  content: '🌙';
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  z-index: 1000;
+  pointer-events: none;
+  animation: float 3s ease-in-out infinite;
+}
+
+[data-holiday-theme="ramadan"] header,
+[data-holiday-theme="ramadan"] .bg-gradient-to-br {
+  background: linear-gradient(135deg, var(--holiday-primary) 0%, #1A5F9F 100%) !important;
+}
+
+/* Valentine Theme */
+[data-holiday-theme="valentine"] {
+  --holiday-primary: #E91E63; /* Pink */
+  --holiday-secondary: #F06292; /* Light Pink */
+  --holiday-accent: #FF4081; /* Accent Pink */
+}
+
+[data-holiday-theme="valentine"] .bg-blue-600,
+[data-holiday-theme="valentine"] .bg-blue-500 {
+  background-color: var(--holiday-primary) !important;
+}
+
+[data-holiday-theme="valentine"] .bg-blue-700:hover {
+  background-color: #C2185B !important;
+}
+
+[data-holiday-theme="valentine"] .text-blue-600,
+[data-holiday-theme="valentine"] .text-blue-500 {
+  color: var(--holiday-primary) !important;
+}
+
+[data-holiday-theme="valentine"]::before {
+  content: '❤️';
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  z-index: 1000;
+  pointer-events: none;
+  animation: float 3s ease-in-out infinite;
+}
+
+[data-holiday-theme="valentine"] header,
+[data-holiday-theme="valentine"] .bg-gradient-to-br {
+  background: linear-gradient(135deg, var(--holiday-primary) 0%, var(--holiday-secondary) 100%) !important;
+}
+
+/* New Year Theme */
+[data-holiday-theme="newyear"] {
+  --holiday-primary: #FF6B6B; /* Coral Red */
+  --holiday-secondary: #4ECDC4; /* Turquoise */
+  --holiday-accent: #FFE66D; /* Yellow */
+}
+
+[data-holiday-theme="newyear"] .bg-blue-600,
+[data-holiday-theme="newyear"] .bg-blue-500 {
+  background: linear-gradient(135deg, var(--holiday-primary) 0%, var(--holiday-secondary) 100%) !important;
+}
+
+[data-holiday-theme="newyear"] .bg-blue-700:hover {
+  background: linear-gradient(135deg, #FF5252 0%, #26A69A 100%) !important;
+}
+
+[data-holiday-theme="newyear"] .text-blue-600,
+[data-holiday-theme="newyear"] .text-blue-500 {
+  background: linear-gradient(135deg, var(--holiday-primary) 0%, var(--holiday-secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-holiday-theme="newyear"]::before {
+  content: '🎊';
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  font-size: 2rem;
+  z-index: 1000;
+  pointer-events: none;
+  animation: float 3s ease-in-out infinite;
+}
+
+[data-holiday-theme="newyear"] header,
+[data-holiday-theme="newyear"] .bg-gradient-to-br {
+  background: linear-gradient(135deg, var(--holiday-primary) 0%, var(--holiday-secondary) 100%) !important;
+}
+
+/* Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Holiday decorations */
+[data-holiday-theme]:not([data-holiday-theme="none"]) .product-card,
+[data-holiday-theme]:not([data-holiday-theme="none"]) .bg-white {
+  position: relative;
+}
+
+[data-holiday-theme]:not([data-holiday-theme="none"]) .product-card::before,
+[data-holiday-theme]:not([data-holiday-theme="none"]) .product-card::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--holiday-accent, #FFD700);
+  opacity: 0.3;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+[data-holiday-theme]:not([data-holiday-theme="none"]) .product-card::before {
+  top: 10px;
+  right: 10px;
+}
+
+[data-holiday-theme]:not([data-holiday-theme="none"]) .product-card::after {
+  bottom: 10px;
+  left: 10px;
+  animation-delay: 1s;
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
