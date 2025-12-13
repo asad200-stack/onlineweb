@@ -13,14 +13,32 @@ const AdminDashboard = () => {
     checkAuth()
   }, [])
 
-  const checkAuth = () => {
+  const checkAuth = async () => {
     const token = localStorage.getItem('token')
     if (!token) {
       navigate('/admin/login')
+      setLoading(false)
       return
     }
-    setAuthenticated(true)
-    setLoading(false)
+
+    // Verify token with backend
+    try {
+      const response = await api.get('/auth/verify')
+      if (response.data.valid) {
+        setAuthenticated(true)
+      } else {
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+        navigate('/admin/login')
+      }
+    } catch (error) {
+      // Token invalid or expired
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      navigate('/admin/login')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleLogout = () => {

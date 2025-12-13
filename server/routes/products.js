@@ -4,6 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const db = require('../database');
+const { verifyToken } = require('./auth');
 
 // Configure multer for file uploads
 // Use persistent data directory (Railway Volume) if available
@@ -41,7 +42,7 @@ const upload = multer({
 // Upload multiple images
 const uploadMultiple = upload.array('images', 10); // Max 10 images
 
-// Get all products
+// Get all products (public - no auth needed)
 router.get('/', (req, res) => {
   db.all('SELECT * FROM products ORDER BY created_at DESC', (err, rows) => {
     if (err) {
@@ -79,8 +80,13 @@ router.get('/:id', (req, res) => {
   });
 });
 
-// Create product
-router.post('/', uploadMultiple, (req, res) => {
+// Create product (protected - admin only)
+router.post('/', verifyToken, (req, res, next) => {
+  uploadMultiple(req, res, (err) => {
+    if (err) return res.status(400).json({ error: err.message })
+    next()
+  })
+}, (req, res) => {
   const { name, name_ar, description, description_ar, price, discount_price, discount_percentage } = req.body;
   
   let imagePath = '';
@@ -139,8 +145,13 @@ router.post('/', uploadMultiple, (req, res) => {
   );
 });
 
-// Update product
-router.put('/:id', uploadMultiple, (req, res) => {
+// Update product (protected - admin only)
+router.put('/:id', verifyToken, (req, res, next) => {
+  uploadMultiple(req, res, (err) => {
+    if (err) return res.status(400).json({ error: err.message })
+    next()
+  })
+}, (req, res) => {
   const { name, name_ar, description, description_ar, price, discount_price, discount_percentage, deleted_images } = req.body;
   
   // Get existing product
@@ -231,8 +242,8 @@ router.put('/:id', uploadMultiple, (req, res) => {
   });
 });
 
-// Delete product image
-router.delete('/:id/images/:imageId', (req, res) => {
+// Delete product image (protected - admin only)
+router.delete('/:id/images/:imageId', verifyToken, (req, res) => {
   db.get('SELECT image_path FROM product_images WHERE id = ? AND product_id = ?', [req.params.imageId, req.params.id], (err, image) => {
     if (err) {
       return res.status(500).json({ error: err.message });
@@ -257,8 +268,8 @@ router.delete('/:id/images/:imageId', (req, res) => {
   });
 });
 
-// Delete product
-router.delete('/:id', (req, res) => {
+// Delete product (protected - admin only)
+router.delete('/:id', verifyToken, (req, res) => {
   // Get all images for this product
   db.all('SELECT image_path FROM product_images WHERE product_id = ?', [req.params.id], (err, images) => {
     if (err) {

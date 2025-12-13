@@ -37,6 +37,22 @@ router.post('/login', (req, res) => {
   });
 });
 
+// Verify token endpoint
+router.get('/verify', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    return res.json({ valid: false, error: 'No token provided' });
+  }
+
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.json({ valid: false, error: 'Invalid or expired token' });
+    }
+    res.json({ valid: true, user: decoded });
+  });
+});
+
 // Verify token middleware (can be used in other routes)
 const verifyToken = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];

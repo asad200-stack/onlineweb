@@ -4,6 +4,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const db = require('../database');
+const { verifyToken } = require('./auth');
 
 // Configure multer for logo upload
 // Use persistent data directory (Railway Volume) if available
@@ -64,8 +65,13 @@ router.get('/:key', (req, res) => {
   });
 });
 
-// Update settings
-router.put('/', upload.single('logo'), (req, res) => {
+// Update settings (protected - admin only)
+router.put('/', verifyToken, (req, res, next) => {
+  upload.single('logo')(req, res, (err) => {
+    if (err) return res.status(400).json({ error: err.message })
+    next()
+  })
+}, (req, res) => {
   const updates = req.body;
   
   // Handle logo upload

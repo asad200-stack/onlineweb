@@ -7,6 +7,7 @@ import Account from './pages/Account'
 import ProductDetails from './pages/ProductDetails'
 import AdminLogin from './pages/AdminLogin'
 import AdminDashboard from './pages/AdminDashboard'
+import ProtectedRoute from './components/ProtectedRoute'
 import { SettingsProvider } from './context/SettingsContext'
 import { LanguageProvider } from './context/LanguageContext'
 import './App.css'
@@ -22,13 +23,26 @@ function App() {
           }}
         >
           <Routes>
+            {/* Public Routes - للمتجر فقط */}
             <Route path="/" element={<Home />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/account" element={<Account />} />
             <Route path="/product/:id" element={<ProductDetails />} />
+            
+            {/* Admin Routes - محمية */}
             <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin/*" element={<AdminDashboard />} />
+            <Route 
+              path="/admin/*" 
+              element={
+                <ProtectedRoute>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              } 
+            />
+            
+            {/* Redirect any other admin routes to login */}
+            <Route path="/admin" element={<Navigate to="/admin/login" replace />} />
           </Routes>
         </Router>
       </LanguageProvider>
