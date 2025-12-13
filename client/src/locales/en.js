@@ -113,9 +113,24 @@ export default {
   viewStore: 'View Store',
   shareStoreLink: 'Share Store Link',
   storeUrl: 'Store Public URL (for sharing with customers)',
+  storeUrlForCustomers: 'Store URL for customers:',
   storeInfo: 'Store Information',
   enableBanner: 'Enable Banner',
   saving: 'Saving...',
+  copyLink: 'Copy Link',
+  copied: 'Copied!',
+  shareVia: 'Share via:',
+  openStoreNewTab: 'Open Store in New Tab',
+  shareTip: 'Tip:',
+  shareTipText: 'This link is permanent - share it with customers once, and any changes you make will appear automatically when they open the link!',
+  linkCopied: 'Copied!',
+  copyFailed: 'Failed to copy link. Please copy manually:',
+  warning: 'Warning:',
+  localhostWarning: 'The current link is localhost and will not work on other devices. Please deploy the project to Railway and add a public URL in settings.',
+  excellent: 'Excellent!',
+  linkPermanent: 'This link is permanent and can be shared with customers.',
+  autoUpdates: 'Automatic updates - any product you add or modify appears to customers immediately without needing to redeploy!',
+  browseProducts: 'Hello! Browse our products at:',
   
   // Messages
   productAdded: 'Product added successfully',
@@ -128,6 +143,7 @@ export default {
   
   // Contact
   whatsapp: 'WhatsApp',
+  telegram: 'Telegram',
   call: 'Call',
   instagram: 'Instagram',
   sendMessage: 'Send Message',
