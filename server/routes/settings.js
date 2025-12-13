@@ -6,9 +6,11 @@ const fs = require('fs');
 const db = require('../database');
 
 // Configure multer for logo upload
+// Use persistent data directory (Railway Volume) if available
+const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH || process.env.DATA_DIR || path.join(__dirname, '..');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, '../uploads');
+    const uploadPath = path.join(dataDir, 'uploads');
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
     }
@@ -69,9 +71,10 @@ router.put('/', upload.single('logo'), (req, res) => {
   // Handle logo upload
   if (req.file) {
     // Delete old logo if exists
+    const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH || process.env.DATA_DIR || path.join(__dirname, '..');
     db.get('SELECT value FROM settings WHERE key = ?', ['logo'], (err, row) => {
       if (row && row.value) {
-        const oldLogoPath = path.join(__dirname, '..', row.value);
+        const oldLogoPath = path.join(dataDir, row.value);
         if (fs.existsSync(oldLogoPath)) {
           fs.unlinkSync(oldLogoPath);
         }

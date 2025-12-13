@@ -16,8 +16,17 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Use persistent data directory for uploads (Railway Volume), otherwise use local
+const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH || process.env.DATA_DIR || __dirname;
+const uploadsDir = path.join(dataDir, 'uploads');
+
+// Create uploads directory if it doesn't exist
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
 // Serve uploaded images
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(uploadsDir));
 
 // Import routes
 const productsRoutes = require('./routes/products');
@@ -28,12 +37,6 @@ const authRoutes = require('./routes/auth');
 app.use('/api/products', productsRoutes);
 app.use('/api/settings', settingsRoutes);
 app.use('/api/auth', authRoutes);
-
-// Create uploads directory if it doesn't exist
-const uploadsDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {

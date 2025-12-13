@@ -2,7 +2,15 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 const fs = require('fs');
 
-const dbPath = path.join(__dirname, 'database.sqlite');
+// Use persistent data directory if available (Railway Volume), otherwise use local
+const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH || process.env.DATA_DIR || __dirname;
+const dbPath = path.join(dataDir, 'database.sqlite');
+
+// Ensure data directory exists
+if (!fs.existsSync(dataDir)) {
+  fs.mkdirSync(dataDir, { recursive: true });
+}
+
 const db = new sqlite3.Database(dbPath);
 
 // Initialize database

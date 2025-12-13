@@ -6,9 +6,11 @@ const fs = require('fs');
 const db = require('../database');
 
 // Configure multer for file uploads
+// Use persistent data directory (Railway Volume) if available
+const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH || process.env.DATA_DIR || path.join(__dirname, '..');
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, '../uploads');
+    const uploadPath = path.join(dataDir, 'uploads');
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
     }
@@ -182,10 +184,11 @@ router.put('/:id', uploadMultiple, (req, res) => {
         // Delete removed images
         if (deleted_images) {
           const deletedIds = JSON.parse(deleted_images);
+          const dataDir = process.env.RAILWAY_VOLUME_MOUNT_PATH || process.env.DATA_DIR || path.join(__dirname, '..');
           deletedIds.forEach(imageId => {
             db.get('SELECT image_path FROM product_images WHERE id = ?', [imageId], (err, img) => {
               if (!err && img) {
-                const imgPath = path.join(__dirname, '..', img.image_path);
+                const imgPath = path.join(dataDir, img.image_path);
                 if (fs.existsSync(imgPath)) {
                   fs.unlinkSync(imgPath);
                 }
