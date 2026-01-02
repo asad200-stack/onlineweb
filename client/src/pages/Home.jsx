@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Banner from '../components/Banner'
 import ProductCard from '../components/ProductCard'
+import ProductCarousel from '../components/ProductCarousel'
 import ContactButtons from '../components/ContactButtons'
 import BottomNavigation from '../components/BottomNavigation'
 import Footer from '../components/Footer'
+import SEOHead from '../components/SEOHead'
+import SkeletonLoader from '../components/SkeletonLoader'
 import api from '../utils/api'
 import { useSettings } from '../context/SettingsContext'
 import { useLanguage } from '../context/LanguageContext'
@@ -31,25 +34,43 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 via-white to-gray-50 pb-20 md:pb-0">
+      <SEOHead 
+        title={settings.store_name || 'متجري الإلكتروني'}
+        description={language === 'ar' ? 'اكتشف مجموعتنا المميزة من المنتجات' : 'Discover our amazing product collection'}
+      />
       <Header />
       <Banner />
       
-      <main className="container mx-auto px-4 py-6 md:py-8">
+      <main className="container mx-auto px-4 py-8 md:py-12">
         {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: settings.primary_color || '#3B82F6' }}></div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            <SkeletonLoader count={8} />
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-gray-500 text-lg">{t('noProducts')}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          <>
+            {/* Featured Products Carousel - Ishtari Style */}
+            <ProductCarousel 
+              products={products.slice(0, 8)} 
+              title={t('featuredProducts') || 'منتجات مميزة'}
+            />
+            
+            {/* All Products Grid */}
+            <div className="mb-8">
+              <h2 className="text-2xl md:text-3xl font-black mb-6" style={{ color: settings.primary_color || '#DC2626' }}>
+                {t('allProducts') || 'جميع المنتجات'}
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                {products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            </div>
+          </>
         )}
       </main>
 

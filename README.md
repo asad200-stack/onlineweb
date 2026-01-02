@@ -1,117 +1,105 @@
-# نظام متجر إلكتروني احترافي
+# 🛒 Professional E-commerce System
 
-نظام متجر إلكتروني كامل مع لوحة تحكم إدارية.
+نظام متجر إلكتروني احترافي مع لوحة تحكم إدارية كاملة.
 
-## 🚀 النشر على Railway
+## 🚀 Quick Deploy on Railway
 
-### الخطوات:
-
-1. **ارفع المشروع على GitHub**
-   ```bash
-   git add .
-   git commit -m "Initial commit"
-   git push origin main
-   ```
-
-2. **أنشئ مشروع جديد على Railway**
-   - اذهب إلى [railway.app](https://railway.app)
-   - سجل دخول بحساب GitHub
-   - اضغط "New Project"
-   - اختر "Deploy from GitHub repo"
-   - اختر الـ repository الخاص بك
-
-3. **إعدادات Railway (مهم جداً!)**
-   
-   في صفحة المشروع على Railway:
-   
-   - **Settings → Build Command:** اتركه فارغاً (سيستخدم `railway.json`)
-   - **Settings → Start Command:** اتركه فارغاً (سيستخدم `railway.json`)
-   - **Variables:** أضف المتغيرات التالية:
-     ```
-     NODE_ENV=production
-     ```
-     (PORT يتم إضافته تلقائياً من Railway)
-
-4. **انتظر حتى يكتمل البناء**
-   - Railway سيقوم بـ:
-     - تثبيت dependencies للجذر
-     - تثبيت dependencies للـ client
-     - بناء تطبيق الـ client
-     - تشغيل السيرفر
-
-5. **احصل على الرابط**
-   - بعد اكتمال البناء، اضغط على "Settings"
-   - في قسم "Domains" يمكنك إضافة domain مخصص أو استخدام الرابط الافتراضي
-
-## 🔑 معلومات الدخول الافتراضية
-
-- **اسم المستخدم:** `web`
-- **كلمة المرور:** `web12345`
-
-⚠️ **مهم:** غيّر كلمة المرور بعد أول دخول!
-
-## 📁 هيكل المشروع
-
-```
-├── client/          # تطبيق React (Frontend)
-├── server/          # Express API (Backend)
-├── railway.json     # إعدادات Railway
-└── package.json     # إعدادات المشروع الرئيسي
+### Step 1: Push to GitHub
+```bash
+git add .
+git commit -m "Ready for Railway"
+git push
 ```
 
-## 🛠️ التشغيل محلياً
+### Step 2: Create Railway Project
+1. Go to [railway.app](https://railway.app)
+2. Click "New Project"
+3. Select "Deploy from GitHub repo"
+4. Choose your repository
+
+### Step 3: Configure Settings
+- **Settings → Builder:** Set to `NIXPACKS` (not Docker!)
+- **Variables → New Variable:**
+  ```
+  NODE_ENV = production
+  ```
+
+### Step 4: Wait for Build
+Railway will automatically:
+- Install dependencies
+- Build the client
+- Start the server
+
+### Step 5: Get Your Link
+- Settings → Domains → Generate Domain
+
+---
+
+## 🔑 Admin Login
+
+- **URL:** `/admin/login`
+- **Username:** `web`
+- **Password:** `web12345`
+
+⚠️ Change password after first login!
+
+---
+
+## ✨ Features
+
+- ✅ Modern UI (Ishtari-style)
+- ✅ Product Management
+- ✅ Shopping Cart
+- ✅ Wishlist
+- ✅ Search & Filters
+- ✅ Multi-language (AR/EN)
+- ✅ Admin Dashboard
+- ✅ WhatsApp Integration
+- ✅ Product Carousel
+- ✅ SEO Optimized
+
+---
+
+## 📁 Project Structure
+
+```
+├── client/          # React Frontend
+├── server/          # Express Backend
+├── railway.json     # Railway config
+└── package.json     # Root dependencies
+```
+
+---
+
+## 🛠️ Local Development
 
 ```bash
-# تثبيت جميع dependencies
+# Install all dependencies
 npm run install-all
 
-# تشغيل المشروع (السيرفر + الـ client)
+# Run development server
 npm run dev
 ```
 
-السيرفر سيعمل على: `http://localhost:5000`
-الـ client سيعمل على: `http://localhost:3000`
+Server: `http://localhost:5000`
+Client: `http://localhost:3000`
 
-## ⚙️ المتغيرات البيئية (Environment Variables)
+---
 
-المتغيرات المطلوبة في Railway:
+## 📝 Requirements
 
-- `NODE_ENV=production` (مطلوب)
-- `PORT` (يتم إضافته تلقائياً من Railway)
+- Node.js 18+
+- npm
 
-متغيرات اختيارية:
+---
 
-- `FRONTEND_URL` - رابط الـ frontend (افتراضي: *)
-- `DATA_DIR` - مجلد البيانات (افتراضي: server/)
-- `RAILWAY_VOLUME_MOUNT_PATH` - مسار Volume في Railway
-
-## 🐛 حل المشاكل
-
-### البناء يفشل (Build Failed)
-
-1. تأكد أن `railway.json` موجود في المشروع
-2. تأكد أن `NODE_ENV=production` موجود في Variables
-3. تحقق من Logs في Railway لرؤية الخطأ الدقيق
-
-### السيرفر لا يعمل
-
-1. تأكد من `PORT` موجود (Railway يضيفه تلقائياً)
-2. تحقق من Logs في Railway
-3. تأكد أن `NODE_ENV=production` موجود
-
-### الصور لا تظهر
-
-- تأكد من أن مجلد `server/uploads` موجود
-- في Railway، قد تحتاج لإضافة Volume للـ uploads
-
-## 📝 ملاحظات
-
-- قاعدة البيانات SQLite يتم إنشاؤها تلقائياً
-- الصور تُحفظ في `server/uploads`
-- في Railway، البيانات تُحفظ في Volume (إن وُجد)
-
-## 📄 الرخصة
+## 📄 License
 
 MIT
 
+---
+
+## 🎉 Ready to Deploy!
+
+Your project is ready for Railway deployment! 🚀
 

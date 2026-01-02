@@ -163,6 +163,62 @@ export default {
   
   // Additional
   welcome: 'Welcome!',
-  noImage: 'No Image'
+  noImage: 'No Image',
+  
+  // Search
+  searchProducts: 'Search for products...',
+  searching: 'Searching...',
+  noResults: 'No results found',
+  
+  // Errors
+  errorOccurred: 'An Error Occurred',
+  errorMessage: 'Sorry, an unexpected error occurred. Please try again.',
+  tryAgain: 'Try Again',
+  pageNotFound: 'Page Not Found',
+  pageNotFoundMessage: 'Sorry, the page you are looking for does not exist.',
+  
+  // Cart
+  remove: 'Remove',
+  quantity: 'Quantity',
+  total: 'Total',
+  checkout: 'Checkout',
+  continueShopping: 'Continue Shopping',
+  addToCart: 'Add to Cart',
+  productAddedToCart: 'Product added to cart',
+  
+  // Wishlist
+  addedToWishlist: 'Product added to wishlist',
+  removedFromWishlist: 'Product removed from wishlist',
+  wishlist: 'Wishlist',
+  
+  // Filters & Sort
+  sortBy: 'Sort by:',
+  newest: 'Newest',
+  oldest: 'Oldest',
+  priceLowToHigh: 'Price: Low to High',
+  priceHighToLow: 'Price: High to Low',
+  name: 'Name',
+  minPrice: 'Min Price',
+  maxPrice: 'Max Price',
+  discountOnly: 'Discount Only',
+  clearFilters: 'Clear Filters',
+  
+  // Share
+  share: 'Share',
+  linkCopied: 'Link copied',
+  copyFailed: 'Failed to copy link',
+  
+  // Account
+  accountDescription: 'Manage your account and favorites',
+  emptyWishlist: 'Your wishlist is empty',
+  browseProducts: 'Browse Products',
+  
+  // Related Products
+  relatedProducts: 'Related Products',
+  
+  // Carousel
+  featuredProducts: 'Featured Products',
+  allProducts: 'All Products',
+  viewAll: 'View All'
 }
 

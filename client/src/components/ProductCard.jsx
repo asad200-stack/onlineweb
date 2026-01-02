@@ -2,13 +2,26 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSettings } from '../context/SettingsContext'
 import { useLanguage } from '../context/LanguageContext'
+import { useCart } from '../context/CartContext'
+import { useToast } from '../context/ToastContext'
+import { useWishlist } from '../context/WishlistContext'
 import { getImageUrl } from '../utils/config'
 import { getProductPrices } from '../utils/productHelpers'
 
 const ProductCard = ({ product }) => {
   const { settings } = useSettings()
   const { language, t } = useLanguage()
-  const [isLiked, setIsLiked] = useState(false)
+  const { addToCart } = useCart()
+  const { showToast } = useToast()
+  const { isInWishlist, toggleWishlist } = useWishlist()
+  const isLiked = isInWishlist(product.id)
+  
+  const handleAddToCart = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    addToCart(product, 1)
+    showToast(t('productAddedToCart') || 'تم إضافة المنتج للسلة', 'success')
+  }
   
   // Get product prices using helper function for discount percentage
   const { discountPercentage } = getProductPrices(product)
@@ -23,14 +36,21 @@ const ProductCard = ({ product }) => {
                           parseFloat(product.discount_price) < parseFloat(product.price)
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden card-hover relative">
+    <div className="bg-white luxury-rounded-lg luxury-shadow overflow-hidden card-hover relative group">
       {/* Like Button */}
       <button
         onClick={(e) => {
           e.preventDefault()
-          setIsLiked(!isLiked)
+          e.stopPropagation()
+          toggleWishlist(product)
+          showToast(
+            isLiked 
+              ? (t('removedFromWishlist') || 'تم إزالة المنتج من المفضلة')
+              : (t('addedToWishlist') || 'تم إضافة المنتج للمفضلة'),
+            'success'
+          )
         }}
-        className="absolute top-2 right-2 z-10 bg-white rounded-full p-2 shadow-md hover:bg-gray-100 transition"
+        className="absolute top-3 right-3 z-10 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-lg hover:bg-white hover:scale-110 transition-all duration-300"
       >
         <svg 
           className={`w-5 h-5 ${isLiked ? 'text-red-500 fill-current' : 'text-gray-400'}`}
@@ -43,28 +63,28 @@ const ProductCard = ({ product }) => {
       </button>
 
       <Link to={`/product/${product.id}`}>
-        <div className="relative">
+        <div className="relative overflow-hidden">
           {product.image ? (
             <img
               src={getImageUrl(product.image)}
               alt={language === 'ar' ? (product.name_ar || product.name) : (product.name || product.name_ar)}
-              className="w-full h-48 md:h-56 object-cover"
+              className="w-full h-48 md:h-64 object-cover transition-transform duration-500 group-hover:scale-110"
             />
           ) : (
-            <div className="w-full h-48 md:h-56 bg-gray-200 flex items-center justify-center">
+            <div className="w-full h-48 md:h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
               <span className="text-gray-400">{t('noImage') || 'No Image'}</span>
             </div>
           )}
           {hasDiscountPrice && (
             <div 
-              className="absolute top-2 left-2 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg"
+              className="absolute top-3 left-3 bg-gradient-to-r from-red-500 to-pink-500 text-white px-4 py-1.5 rounded-full text-xs font-bold shadow-xl backdrop-blur-sm"
             >
               -{discountPercentage}%
             </div>
           )}
         </div>
-        <div className="p-4">
-          <h3 className="text-base md:text-lg font-semibold mb-3 text-gray-800 line-clamp-2 min-h-[3rem]">
+        <div className="p-5">
+          <h3 className="text-base md:text-lg font-bold mb-3 text-gray-900 line-clamp-2 min-h-[3rem] leading-tight">
             {language === 'ar' ? (product.name_ar || product.name) : (product.name || product.name_ar)}
           </h3>
           <div className="flex items-center justify-between mb-3">
@@ -87,15 +107,20 @@ const ProductCard = ({ product }) => {
               )}
             </div>
           </div>
-          <button
-            className="w-full bg-black text-white py-2.5 rounded-full font-medium hover:bg-gray-800 transition text-sm md:text-base"
-            onClick={(e) => {
-              e.preventDefault()
-              window.location.href = `/product/${product.id}`
-            }}
-          >
-            {t('readMore')}
-          </button>
+          <div className="flex gap-3">
+            <Link
+              to={`/product/${product.id}`}
+              className="flex-1 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800 py-3 rounded-xl font-semibold hover:from-gray-200 hover:to-gray-300 transition-all duration-300 text-sm md:text-base text-center luxury-shadow hover:shadow-lg"
+            >
+              {t('readMore')}
+            </Link>
+            <button
+              onClick={handleAddToCart}
+              className="flex-1 bg-gradient-to-r from-gray-900 to-black text-white py-3 rounded-xl font-semibold hover:from-black hover:to-gray-800 transition-all duration-300 text-sm md:text-base luxury-btn luxury-shadow hover:shadow-xl"
+            >
+              {t('addToCart') || 'أضف للسلة'}
+            </button>
+          </div>
         </div>
       </Link>
     </div>

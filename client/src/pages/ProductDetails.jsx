@@ -4,9 +4,15 @@ import Header from '../components/Header'
 import ContactButtons from '../components/ContactButtons'
 import BottomNavigation from '../components/BottomNavigation'
 import ImageLightbox from '../components/ImageLightbox'
+import SEOHead from '../components/SEOHead'
+import ShareProduct from '../components/ShareProduct'
+import ProductCard from '../components/ProductCard'
 import api from '../utils/api'
 import { useSettings } from '../context/SettingsContext'
 import { useLanguage } from '../context/LanguageContext'
+import { useCart } from '../context/CartContext'
+import { useToast } from '../context/ToastContext'
+import { useRecentlyViewed } from '../context/RecentlyViewedContext'
 import { getImageUrl } from '../utils/config'
 import { getProductPrices } from '../utils/productHelpers'
 
@@ -17,17 +23,42 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [showLightbox, setShowLightbox] = useState(false)
+  const [quantity, setQuantity] = useState(1)
   const { settings } = useSettings()
   const { language, t } = useLanguage()
+  const { addToCart } = useCart()
+  const { showToast } = useToast()
+  const { addToRecentlyViewed, getRelatedProducts } = useRecentlyViewed()
+  const [relatedProducts, setRelatedProducts] = useState([])
+  
+  const handleAddToCart = () => {
+    addToCart(product, quantity)
+    showToast(t('productAddedToCart') || 'تم إضافة المنتج للسلة', 'success')
+  }
 
   useEffect(() => {
     fetchProduct()
+    fetchRelatedProducts()
   }, [id])
+
+  const fetchRelatedProducts = async () => {
+    try {
+      const response = await api.get('/products')
+      const related = getRelatedProducts(parseInt(id), response.data, 4)
+      setRelatedProducts(related)
+    } catch (error) {
+      console.error('Error fetching related products:', error)
+    }
+  }
 
   const fetchProduct = async () => {
     try {
       const response = await api.get(`/products/${id}`)
       setProduct(response.data)
+      // Add to recently viewed
+      if (response.data) {
+        addToRecentlyViewed(response.data)
+      }
     } catch (error) {
       console.error('Error fetching product:', error)
       navigate('/')
@@ -73,8 +104,18 @@ const ProductDetails = () => {
     setSelectedImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length)
   }
 
+  const productName = language === 'ar' ? (product.name_ar || product.name) : (product.name || product.name_ar)
+  const productDescription = language === 'ar' 
+    ? (product.description_ar || product.description || '')
+    : (product.description || product.description_ar || '')
+
   return (
     <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">
+      <SEOHead 
+        title={productName}
+        description={productDescription}
+        image={allImages[0] ? getImageUrl(allImages[0]) : null}
+      />
       <Header />
       
       <main className="container mx-auto px-4 py-8">
@@ -88,7 +129,7 @@ const ProductDetails = () => {
           {t('backToHome')}
         </Link>
 
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="bg-white luxury-rounded-lg luxury-shadow-lg overflow-hidden">
           <div className="md:flex">
             <div className="md:w-1/2">
               {allImages.length > 0 ? (
@@ -144,18 +185,18 @@ const ProductDetails = () => {
             <div className="md:w-1/2 p-8">
               {hasDiscount && (
                 <div 
-                  className="inline-block bg-red-500 text-white px-4 py-2 rounded-full text-sm font-bold mb-4"
+                  className="inline-block bg-gradient-to-r from-red-500 to-pink-500 text-white px-5 py-2.5 rounded-full text-sm font-bold mb-5 shadow-xl"
                 >
                   {t('discount')} {discountPercentage}%
                 </div>
               )}
               
-              <h1 className="text-3xl font-bold mb-4 text-gray-800">
+              <h1 className="text-3xl md:text-4xl font-black mb-5 text-gray-900 leading-tight">
                 {language === 'ar' ? (product.name_ar || product.name) : (product.name || product.name_ar)}
               </h1>
               
               {(language === 'ar' ? (product.description_ar || product.description) : (product.description || product.description_ar)) ? (
-                <p className="text-gray-600 mb-6 leading-relaxed">
+                <p className="text-gray-600 mb-8 leading-relaxed text-lg">
                   {language === 'ar' ? (product.description_ar || product.description) : (product.description || product.description_ar)}
                 </p>
               ) : null}
@@ -184,13 +225,49 @@ const ProductDetails = () => {
                 )}
               </div>
               
-              <button
-                onClick={handleContact}
-                className="w-full py-4 rounded-lg text-white font-bold text-lg hover:opacity-90 transition shadow-lg"
-                style={{ backgroundColor: settings.primary_color || '#3B82F6' }}
-              >
-                {t('contactUs')}
-              </button>
+              <div className="mb-6">
+                <label className="block mb-3 font-bold text-gray-800">{t('quantity')}</label>
+                <div className="flex items-center space-x-3 space-x-reverse">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="w-12 h-12 rounded-xl border-2 border-gray-300 flex items-center justify-center hover:bg-gray-100 hover:border-gray-400 transition-all duration-300 font-bold text-lg luxury-shadow"
+                  >
+                    −
+                  </button>
+                  <span className="w-20 text-center font-black text-2xl text-gray-900">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="w-12 h-12 rounded-xl border-2 border-gray-300 flex items-center justify-center hover:bg-gray-100 hover:border-gray-400 transition-all duration-300 font-bold text-lg luxury-shadow"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <button
+                  onClick={handleAddToCart}
+                  className="w-full py-4 rounded-xl text-white font-bold text-lg luxury-btn luxury-shadow hover:shadow-xl transition-all duration-300"
+                  style={{ 
+                    background: `linear-gradient(135deg, ${settings.primary_color || '#3B82F6'} 0%, ${settings.secondary_color || '#1E40AF'} 100%)`
+                  }}
+                >
+                  {t('addToCart') || 'أضف للسلة'}
+                </button>
+                <button
+                  onClick={handleContact}
+                  className="w-full py-4 rounded-xl border-2 font-bold text-lg hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 transition-all duration-300 luxury-shadow hover:shadow-lg"
+                  style={{ 
+                    borderColor: settings.primary_color || '#3B82F6', 
+                    color: settings.primary_color || '#3B82F6' 
+                  }}
+                >
+                  {t('contactUs')}
+                </button>
+                <div className="flex justify-center pt-2">
+                  <ShareProduct product={product} language={language} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -204,6 +281,20 @@ const ProductDetails = () => {
           onNext={handleNextImage}
           onPrev={handlePrevImage}
         />
+      )}
+
+      {/* Related Products */}
+      {relatedProducts.length > 0 && (
+        <section className="container mx-auto px-4 py-8 mt-8">
+          <h2 className="text-2xl font-bold mb-6" style={{ color: settings.primary_color || '#3B82F6' }}>
+            {t('relatedProducts') || 'منتجات مشابهة'}
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            {relatedProducts.map((relatedProduct) => (
+              <ProductCard key={relatedProduct.id} product={relatedProduct} />
+            ))}
+          </div>
+        </section>
       )}
 
       <ContactButtons />

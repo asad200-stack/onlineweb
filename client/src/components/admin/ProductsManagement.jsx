@@ -4,6 +4,7 @@ import ShareStoreLink from './ShareStoreLink'
 import api from '../../utils/api'
 import { getImageUrl } from '../../utils/config'
 import { useLanguage } from '../../context/LanguageContext'
+import { useToast } from '../../context/ToastContext'
 
 const ProductsManagement = () => {
   const [products, setProducts] = useState([])
@@ -11,6 +12,7 @@ const ProductsManagement = () => {
   const [showForm, setShowForm] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
   const { t } = useLanguage()
+  const { showToast } = useToast()
 
   useEffect(() => {
     fetchProducts()
@@ -40,9 +42,10 @@ const ProductsManagement = () => {
     try {
       await api.delete(`/products/${id}`)
       fetchProducts()
+      showToast(t('productDeleted'), 'success')
     } catch (error) {
       console.error('Error deleting product:', error)
-      alert(t('error'))
+      showToast(t('error') || 'حدث خطأ', 'error')
     }
   }
 

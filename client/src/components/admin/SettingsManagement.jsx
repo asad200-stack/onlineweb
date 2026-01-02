@@ -93,10 +93,19 @@ const SettingsManagement = () => {
       })
 
       await fetchSettings()
-      alert(t('settingsSaved'))
+      // Toast will be shown from useToast if available
+      if (window.showToast) {
+        window.showToast(t('settingsSaved'), 'success')
+      } else {
+        alert(t('settingsSaved'))
+      }
     } catch (error) {
       console.error('Error saving settings:', error)
-      alert(t('error'))
+      if (window.showToast) {
+        window.showToast(t('error') || 'حدث خطأ', 'error')
+      } else {
+        alert(t('error'))
+      }
     } finally {
       setLoading(false)
     }

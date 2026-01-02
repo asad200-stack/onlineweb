@@ -162,6 +162,62 @@ export default {
   
   // Additional
   welcome: 'مرحباً بك!',
-  noImage: 'لا توجد صورة'
+  noImage: 'لا توجد صورة',
+  
+  // Search
+  searchProducts: 'ابحث عن منتج...',
+  searching: 'جاري البحث...',
+  noResults: 'لا توجد نتائج',
+  
+  // Errors
+  errorOccurred: 'حدث خطأ',
+  errorMessage: 'عذراً، حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.',
+  tryAgain: 'حاول مرة أخرى',
+  pageNotFound: 'الصفحة غير موجودة',
+  pageNotFoundMessage: 'عذراً، الصفحة التي تبحث عنها غير موجودة.',
+  
+  // Cart
+  remove: 'حذف',
+  quantity: 'الكمية',
+  total: 'الإجمالي',
+  checkout: 'إتمام الطلب',
+  continueShopping: 'متابعة التسوق',
+  addToCart: 'أضف للسلة',
+  productAddedToCart: 'تم إضافة المنتج للسلة',
+  
+  // Wishlist
+  addedToWishlist: 'تم إضافة المنتج للمفضلة',
+  removedFromWishlist: 'تم إزالة المنتج من المفضلة',
+  wishlist: 'المفضلة',
+  
+  // Filters & Sort
+  sortBy: 'ترتيب حسب:',
+  newest: 'الأحدث',
+  oldest: 'الأقدم',
+  priceLowToHigh: 'السعر: منخفض إلى مرتفع',
+  priceHighToLow: 'السعر: مرتفع إلى منخفض',
+  name: 'الاسم',
+  minPrice: 'أقل سعر',
+  maxPrice: 'أعلى سعر',
+  discountOnly: 'عروض فقط',
+  clearFilters: 'مسح الفلاتر',
+  
+  // Share
+  share: 'مشاركة',
+  linkCopied: 'تم نسخ الرابط',
+  copyFailed: 'فشل نسخ الرابط',
+  
+  // Account
+  accountDescription: 'إدارة حسابك ومفضلاتك',
+  emptyWishlist: 'قائمة المفضلة فارغة',
+  browseProducts: 'تصفح المنتجات',
+  
+  // Related Products
+  relatedProducts: 'منتجات مشابهة',
+  
+  // Carousel
+  featuredProducts: 'منتجات مميزة',
+  allProducts: 'جميع المنتجات',
+  viewAll: 'عرض الكل'
 }
 

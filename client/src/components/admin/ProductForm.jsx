@@ -159,9 +159,17 @@ const ProductForm = ({ product, onClose, onSuccess }) => {
       }
 
       onSuccess()
+      // Show success message if toast is available
+      if (window.showToast) {
+        window.showToast(product ? 'تم تحديث المنتج بنجاح' : 'تم إضافة المنتج بنجاح', 'success')
+      }
     } catch (error) {
       console.error('Error saving product:', error)
-      alert('حدث خطأ أثناء حفظ المنتج')
+      if (window.showToast) {
+        window.showToast('حدث خطأ أثناء حفظ المنتج', 'error')
+      } else {
+        alert('حدث خطأ أثناء حفظ المنتج')
+      }
     } finally {
       setLoading(false)
     }
